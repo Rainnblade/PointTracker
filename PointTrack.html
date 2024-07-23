@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Point System Tracker</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #ffffff;
+        }
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .tabs button {
+            background-color: #333;
+            border: none;
+            padding: 10px 20px;
+            color: #e0e0e0;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .tabs button.active {
+            background-color: #666;
+        }
+        .tabs button:hover {
+            background-color: #555;
+        }
+        .tasks {
+            list-style-type: none;
+            padding: 0;
+        }
+        .tasks li {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #282828;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .task-points {
+            color: #00e676;
+        }
+        .total-points {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .message {
+            color: #00e676;
+            font-weight: bold;
+        }
+        .hidden {
+            display: none;
+        }
+        .negative-actions {
+            margin-top: 20px;
+        }
+        .negative-actions button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .negative-actions button:hover {
+            background-color: #d32f2f;
+        }
+        .reset-button {
+            margin-top: 20px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .reset-button:hover {
+            background-color: #d32f2f;
+        }
+        #charlie-tab.active, #charlie-tab:hover {
+            background-color: #f54254 !important;
+        }
+        #lena-tab.active, #lena-tab:hover {
+            background-color: pink !important;
+        }
+        h2#charlie-name {
+            color: #f54254;
+        }
+        h2#lena-name {
+            color: pink;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Point System Tracker</h1>
+        <div class="tabs">
+            <button id="charlie-tab" class="active" onclick="showTab('charlie')">Charlie</button>
+            <button id="lena-tab" onclick="showTab('lena')">Lena</button>
+        </div>
+        <div id="charlie" class="person">
+            <h2 id="charlie-name">Charlie's Tasks</h2>
+            <ul class="tasks">
+                <li><input type="checkbox" data-points="5"> Brush Teeth <span class="task-points">+5</span></li>
+                <li><input type="checkbox" data-points="5"> Showering <span class="task-points">+5</span></li>
+                <li><input type="checkbox" data-points="5"> Cleaning Room <span class="task-points">+5</span></li>
+                <li><input type="checkbox" data-points="5"> Making Bed <span class="task-points">+5</span></li>
+                <li><input type="checkbox" data-points="5"> Putting Clothes Away and Doing Laundry <span class="task-points">+5</span></li>
+                <li><input type="checkbox" data-points="5"> Exercising 30 Minutes <span class="task-points">+5</span></li>
+                <li><input type="checkbox" data-points="16"> Exercising for an Hour <span class="task-points">+16</span></li>
+                <li><input type="checkbox" data-points="5"> Eating Only One Meal a Day <span class="task-points">+5</span></li>
+                <li><input type="checkbox" data-points="2"> Drinking 2 Litres of Water <span class="task-points">+2</span></li>
+                <li><input type="checkbox" data-points="10"> Trying a New Hobby for 30 Minutes <span class="task-points">+10</span></li>
+                <li><input type="checkbox" data-points="10"> Practicing Coding Class for 30 Minutes <span class="task-points">+10</span></li>
+                <li><input type="checkbox" data-points="15"> Practicing Coding Class for an Hour <span class="task-points">+15</span></li>
+                <li><input type="checkbox" data-points="10"> Cleaning Bathroom <span class="task-points">+10</span></li>
+                <li><input type="checkbox" data-points="5"> Go for a Walk <span class="task-points">+5</span></li>
+            </ul>
+            <div class="total-points">Total Points: <span id="charlie-points">0/40</span></div>
+            <div class="message" id="charlie-message"></div>
+            <div class="negative-actions">
+                <h3>Subtract Points</h3>
+                <button onclick="subtractPoints('charlie', 15)">Eating bad foods on a not cheat day (-15)</button><br>
+                <button onclick="subtractPoints('charlie', 15)">Not doing coding (-15)</button><br>
+                <button onclick="subtractPoints('charlie', 20)">Not exercising (-20)</button><br>
+                <button onclick="subtractPoints('charlie', 5)">Not making bed (-5)</button><br>
+                <button onclick="subtractPoints('charlie', 10)">Not brushing teeth (-10)</button><br>
+                <button onclick="subtractPoints('charlie', 10)">Not showering (-10)</button>
+            </div>
+            <button class="reset-button" onclick="resetPoints('charlie')">Reset Points</button>
+        </div>
+        <div id="lena" class="person hidden">
+            <h2 id="lena-name">Lena's Tasks</h2>
+            <ul class="tasks">
+                <li><input type="checkbox" data-points="5"> Brush Teeth <span class="task-points">+5</span></li>
+                <li><input type="checkbox" data-points="5"> Showering <span class="task-points">+5</span></li>
+                <li><input type="checkbox" data-points="8"> Cat Litter <span class="task-points">+8</span></li>
+                <li><input type="checkbox" data-points="3"> Sketching <span class="task-points">+3</span></li>
+                <li><input type="checkbox" data-points="8"> Finishing a Drawing <span class="task-points">+8</span></li>
+                <li><input type="checkbox" data-points="5"> Doing 30 Minutes of an Art Course <span class="task-points">+5</span></li>
+                <li><input type="checkbox" data-points="3"> Cat Food <span class="task-points">+3</span></li>
+                <li><input type="checkbox" data-points="5"> Mail <span class="task-points">+5</span></li>
+                <li><input type="checkbox" data-points="5"> Trash Cans <span class="task-points">+5</span></li>
+                <li><input type="checkbox" data-points="5"> Cleaning Room <span class="task-points">+5</span></li>
+                <li><input type="checkbox" data-points="5"> Making Bed <span class="task-points">+5</span></li>
+                <li><input type="checkbox" data-points="3"> Putting Clothes Away <span class="task-points">+3</span></li>
+                <li><input type="checkbox" data-points="8"> Walking 30 Minutes <span class="task-points">+8</span></li>
+                <li><input type="checkbox" data-points="16"> Walking an Hour <span class="task-points">+16</span></li>
+                <li><input type="checkbox" data-points="5"> Eating Only One Meal a Day <span class="task-points">+5</span></li>
+                <li><input type="checkbox" data-points="2"> Drinking 2 Litres of Water <span class="task-points">+2</span></li>
+            </ul>
+            <div class="total-points">Total Points: <span id="lena-points">0/40</span></div>
+            <div class="message" id="lena-message"></div>
+            <div class="negative-actions">
+                <h3>Subtract Points</h3>
+                <button onclick="subtractPoints('lena', 15)">Eating bad foods on a not cheat day (-15)</button><br>
+                <button onclick="subtractPoints('lena', 10)">Not doing art (-10)</button><br>
+                <button onclick="subtractPoints('lena', 20)">Not walking (-20)</button><br>
+                <button onclick="subtractPoints('lena', 15)">Not doing the cats (-15)</button><br>
+                <button onclick="subtractPoints('lena', 5)">Not making bed (-5)</button><br>
+                <button onclick="subtractPoints('lena', 10)">Not brushing teeth (-10)</button><br>
+                <button onclick="subtractPoints('lena', 10)">Not showering (-10)</button>
+            </div>
+            <button class="reset-button" onclick="resetPoints('lena')">Reset Points</button>
+        </div>
+    </div>
+    <script>
+        const targetPoints = 40;
+
+        function showTab(person) {
+            document.querySelectorAll('.person').forEach(p => p.classList.add('hidden'));
+            document.querySelector(`#${person}`).classList.remove('hidden');
+            document.querySelectorAll('.tabs button').forEach(tab => tab.classList.remove('active'));
+            document.querySelector(`#${person}-tab`).classList.add('active');
+        }
+
+        function updatePoints(personId) {
+            const person = document.querySelector(`#${personId}`);
+            const tasks = person.querySelectorAll('input[type="checkbox"]');
+            const totalPointsElement = person.querySelector('.total-points span');
+            const messageElement = person.querySelector('.message');
+            
+            let totalPoints = 0;
+            tasks.forEach(task => {
+                if (task.checked) {
+                    totalPoints += parseInt(task.getAttribute('data-points'));
+                }
+            });
+            totalPointsElement.textContent = `${totalPoints}/${targetPoints}`;
+            if (totalPoints >= targetPoints) {
+                messageElement.textContent = "You can play video games now!";
+            } else {
+                messageElement.textContent = "";
+            }
+        }
+
+        function subtractPoints(personId, points) {
+            const person = document.querySelector(`#${personId}`);
+            const totalPointsElement = person.querySelector('.total-points span');
+            const messageElement = person.querySelector('.message');
+
+            let totalPoints = parseInt(totalPointsElement.textContent.split('/')[0]);
+            totalPoints -= points;
+
+            totalPointsElement.textContent = `${totalPoints}/${targetPoints}`;
+            if (totalPoints >= targetPoints) {
+                messageElement.textContent = "You can play video games now!";
+            } else {
+                messageElement.textContent = "";
+            }
+        }
+
+        function resetPoints(personId) {
+            const person = document.querySelector(`#${personId}`);
+            const tasks = person.querySelectorAll('input[type="checkbox"]');
+            const totalPointsElement = person.querySelector('.total-points span');
+            const messageElement = person.querySelector('.message');
+
+            tasks.forEach(task => {
+                task.checked = false;
+            });
+
+            totalPointsElement.textContent = `0/${targetPoints}`;
+            messageElement.textContent = "";
+        }
+
+        document.querySelectorAll('.person').forEach(person => {
+            const tasks = person.querySelectorAll('input[type="checkbox"]');
+            
+            tasks.forEach(task => {
+                task.addEventListener('change', () => {
+                    const personId = person.id;
+                    updatePoints(personId);
+                });
+            });
+        });
+
+        // Initial call to set the first tab as visible
+        showTab('charlie');
+    </script>
+</body>
+</html>
